@@ -7,7 +7,7 @@ predictor_api = Blueprint('predictor_api', __name__)
 class Predictor(Resource):
 
     def predict(self, model, features, payload):
-        data = pd.json_normalize(payload).reindex(columns=features, fill_value=0)
+        data = pd.json_normalize(payload).fillna(0)[features]
         prediction = model.predict(data)
         predicted_consumption = {
             'prediction': list(prediction)
